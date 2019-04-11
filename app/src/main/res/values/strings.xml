@@ -18,4 +18,6 @@
     <string name="no">No</string>
     <string name="administrator">Admin</string>
     <string name="change_password">Change password</string>
+    <string name="error_password">Wrong credentials!</string>
+    <string name="error_network">Can not connect to the server!</string>
 </resources>

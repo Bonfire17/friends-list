@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                             progress.setVisibility(View.INVISIBLE);
                             loginBtn.setEnabled(true);
                         }else{
-                            react.setText("De ingevoerde gegevens zijn incorrect!");
+                            react.setText(getResources().getString(R.string.error_password));
                             progress.setVisibility(View.INVISIBLE);
                             loginBtn.setEnabled(true);
                         }
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    react.setText("Kon geen verbinding maken met de server!");
+                    react.setText(getResources().getString(R.string.error_network));
                     progress.setVisibility(View.INVISIBLE);
                     loginBtn.setEnabled(true);
                 }

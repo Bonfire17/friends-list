@@ -18,4 +18,6 @@
     <string name="no">Nee</string>
     <string name="administrator">Admin</string>
     <string name="change_password">Wachtwoord wijzigen</string>
+    <string name="error_password">De ingevoerde gegevens zijn incorrect!</string>
+    <string name="error_network">Kon geen verbinding maken met de server!</string>
 </resources>
