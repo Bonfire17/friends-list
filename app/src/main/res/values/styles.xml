@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#257BE8</item>
+        <item name="colorPrimaryDark">#294FFF</item>
+        <item name="colorAccent">#1CBCFF</item>
+    </style>
+    <style name="ToolbarTheme" parent="AppTheme">
+        <item name="android:textColorSecondary">#FFFFFF</item>
+    </style>
+    <style name="ProgressTheme" parent="AppTheme">
+        <item name="android:indeterminateTint">#FFFFFF</item>
+
+    </style>
+
+</resources>

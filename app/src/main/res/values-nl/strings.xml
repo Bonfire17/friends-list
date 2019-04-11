@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">FriendsList</string>
+    <string name="password">Wachtwoord</string>
+    <string name="email">Emailadres</string>
+    <string name="login">Inloggen</string>
+    <string name="logout">Uitloggen</string>
+    <string name="app_name_space">Friends List</string>
+    <string name="options">Opties</string>
+    <string name="add">Toevoegen</string>
+    <string name="firstname">Voornaam</string>
+    <string name="lastname">Achternaam</string>
+    <string name="phonenumber">Telefoonnummer</string>
+    <string name="refresh">Vernieuw</string>
+    <string name="edit">Wijzigen</string>
+    <string name="delete">Verwijderen</string>
+    <string name="admin">Administratie</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <string name="administrator">Admin</string>
+    <string name="change_password">Wachtwoord wijzigen</string>
+</resources>

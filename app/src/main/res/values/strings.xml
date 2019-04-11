@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">FriendsList</string>
+    <string name="password">Password</string>
+    <string name="email">Email address</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="app_name_space">Friends List</string>
+    <string name="options">Options</string>
+    <string name="add">Add</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="phonenumber">Phonenumber</string>
+    <string name="refresh">Refresh</string>
+    <string name="edit">Modify</string>
+    <string name="delete">Delete</string>
+    <string name="admin">Administration</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="administrator">Admin</string>
+    <string name="change_password">Change password</string>
+</resources>

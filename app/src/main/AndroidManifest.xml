@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.android.friendslist">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_logo"
+        android:label="@string/app_name_space"
+        android:roundIcon="@mipmap/ic_logo_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="nl.bonfire17.friendslist.EditUserActivity"></activity>
+        <activity android:name="nl.bonfire17.friendslist.UserAdminActivity" />
+        <activity android:name="nl.bonfire17.friendslist.EditContactActivity" />
+        <activity android:name="nl.bonfire17.friendslist.MainMenuActivity" />
+        <activity android:name="nl.bonfire17.friendslist.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
