@@ -1,4 +1,4 @@
-package nl.bonfire17.friendslist;
+package nl.bonfire17.friendslist.compounds;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;

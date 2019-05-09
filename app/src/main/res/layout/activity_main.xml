@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
-    tools:context="nl.bonfire17.friendslist.MainActivity">
+    tools:context="nl.bonfire17.friendslist.activities.MainActivity">
 
     <EditText
         android:id="@+id/email"

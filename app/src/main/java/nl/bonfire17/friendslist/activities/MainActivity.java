@@ -1,4 +1,4 @@
-package nl.bonfire17.friendslist;
+package nl.bonfire17.friendslist.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import nl.bonfire17.friendslist.data.NetworkSingleton;
 
 public class MainActivity extends AppCompatActivity {
 

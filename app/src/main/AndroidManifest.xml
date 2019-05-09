@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="nl.bonfire17.friendslist.EditUserActivity"></activity>
-        <activity android:name="nl.bonfire17.friendslist.UserAdminActivity" />
-        <activity android:name="nl.bonfire17.friendslist.EditContactActivity" />
-        <activity android:name="nl.bonfire17.friendslist.MainMenuActivity" />
-        <activity android:name="nl.bonfire17.friendslist.MainActivity">
+        <activity android:name="nl.bonfire17.friendslist.activities.EditUserActivity"></activity>
+        <activity android:name="nl.bonfire17.friendslist.activities.UserAdminActivity" />
+        <activity android:name="nl.bonfire17.friendslist.activities.EditContactActivity" />
+        <activity android:name="nl.bonfire17.friendslist.activities.MainMenuActivity" />
+        <activity android:name="nl.bonfire17.friendslist.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

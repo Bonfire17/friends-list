@@ -1,4 +1,4 @@
-package nl.bonfire17.friendslist;
+package nl.bonfire17.friendslist.data;
 
 import android.content.Context;
 
@@ -12,7 +12,9 @@ public class NetworkSingleton {
     private static Context ctx;
 
     //Enter your API URL here
-    private final static String API_URL = "http://example.com/friendslistapp/?";
+    private final static String API_URL = "http://gilianplants.nl" +
+            "" +
+            "/bartisskeer/?";
 
     private NetworkSingleton(Context ctx){
         this.ctx = ctx;

@@ -1,4 +1,4 @@
-package nl.bonfire17.friendslist;
+package nl.bonfire17.friendslist.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,6 +28,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import nl.bonfire17.friendslist.data.NetworkSingleton;
+import nl.bonfire17.friendslist.adapters.UserAdapter;
+import nl.bonfire17.friendslist.models.Contact;
+import nl.bonfire17.friendslist.models.User;
 
 public class UserAdminActivity extends AppCompatActivity {
 

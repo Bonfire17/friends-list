@@ -1,4 +1,4 @@
-package nl.bonfire17.friendslist;
+package nl.bonfire17.friendslist.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.android.friendslist.R;
 
 import java.util.ArrayList;
+
+import nl.bonfire17.friendslist.models.Contact;
 
 
 public class ContactAdapter extends BaseAdapter {

@@ -1,4 +1,4 @@
-package nl.bonfire17.friendslist;
+package nl.bonfire17.friendslist.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,6 +30,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import nl.bonfire17.friendslist.AddButton;
+import nl.bonfire17.friendslist.adapters.ContactAdapter;
+import nl.bonfire17.friendslist.data.NetworkSingleton;
+import nl.bonfire17.friendslist.models.Contact;
 
 public class MainMenuActivity extends AppCompatActivity {
 

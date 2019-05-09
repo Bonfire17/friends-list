@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nl.bonfire17.friendslist.EditContactActivity">
+    tools:context="nl.bonfire17.friendslist.activities.EditContactActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <nl.bonfire17.friendslist.EditContactCompound
+    <nl.bonfire17.friendslist.compounds.EditContactCompound
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-    </nl.bonfire17.friendslist.EditContactCompound>
+    </nl.bonfire17.friendslist.compounds.EditContactCompound>
 
     <Button
         android:id="@+id/editButton"
