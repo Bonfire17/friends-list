@@ -11,11 +11,6 @@ public class NetworkSingleton {
     private RequestQueue rq;
     private static Context ctx;
 
-    //Enter your API URL here
-    private final static String API_URL = "http://gilianplants.nl" +
-            "" +
-            "/bartisskeer/?";
-
     private NetworkSingleton(Context ctx){
         this.ctx = ctx;
         rq = getRequestQueue();
@@ -38,9 +33,5 @@ public class NetworkSingleton {
 
     public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
-    }
-
-    public static String getApiUrl(){
-        return API_URL;
     }
 }

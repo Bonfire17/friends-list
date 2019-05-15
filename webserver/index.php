@@ -4,11 +4,10 @@
 
 	ini_set('default_charset', 'utf-8');
 
-	//Database info
-	$ip = "ip";
-	$db = "databasename";
-	$DBusername = "databaseusername";
-	$DBpassword = "password";
+	$ip = "localhost";
+	$db = "androidapp";
+	$DBusername = "androidappgebruiker";
+	$DBpassword = "xbVtsbuif0uHkOET";
 
 
 	try {
@@ -99,7 +98,7 @@
 		$id = inPost("id");
 		$userId = inPost("userId");
 		$admin = singleSelectQuery("SELECT admin FROM user WHERE id=?;", array($id));
-		if($admin == 1){
+		if($admin == 1 || $id == $userId){
 			$user = rowSelectQuery("SELECT id, email, admin FROM user WHERE id=?", array($userId));
 			$contacts = selectQuery("SELECT c.id, c.firstname, c.lastname, c.email, c.phonenumber FROM contact AS c WHERE c.user_id=?", array($userId));
 			$user["contacts"] = $contacts;

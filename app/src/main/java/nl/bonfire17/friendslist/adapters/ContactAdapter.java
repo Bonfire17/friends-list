@@ -25,7 +25,6 @@ public class ContactAdapter extends BaseAdapter {
     public ContactAdapter(Context ctx, ArrayList<Contact> contactList){
         this.contactList = contactList;
         this.ctx = ctx;
-        Log.d(TAG, contactList.toString());
     }
 
     public void clearAdapter(){

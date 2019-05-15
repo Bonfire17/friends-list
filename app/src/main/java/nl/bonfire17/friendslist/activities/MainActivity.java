@@ -22,7 +22,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.bonfire17.friendslist.data.NetworkSingleton;
+import nl.bonfire17.friendslist.data.DataProvider;
+import nl.bonfire17.friendslist.data.ProviderResponse;
+import nl.bonfire17.friendslist.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailEdit, passwordEdit;
     private TextView react;
     private ProgressBar progress;
+
+    private DataProvider dataProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         loginBtn.setOnClickListener(new LoginButtonListener());
 
+        dataProvider = new DataProvider(this);
     }
 
     class LoginButtonListener implements View.OnClickListener {
@@ -53,56 +58,37 @@ public class MainActivity extends AppCompatActivity {
             loginBtn.setEnabled(false);
             progress.setVisibility(View.VISIBLE);
 
-            String url = NetworkSingleton.getApiUrl() + "a=login";
+            Map<String, String> parameters = new HashMap();
+            parameters.put("email", emailEdit.getText().toString());
+            parameters.put("password", passwordEdit.getText().toString());
+            dataProvider.request(DataProvider.LOGIN, parameters, new LoginListener());
+        }
+    }
 
-            //Add values to parameters
-            String email = emailEdit.getText().toString();
-            String password = passwordEdit.getText().toString();
-            Map<String, String> params = new HashMap();
-            params.put("Content-Type", "application/json; charset=utf-8");
-            params.put("email", email);
-            params.put("password", password);
+    class LoginListener implements ProviderResponse.LoginResponse {
 
-            JSONObject parameters = new JSONObject(params);
+        @Override
+        public void response(boolean login, int id) {
+            if(login){
+                Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
+                intent.putExtra("userID", id);
+                startActivity(intent);
 
-            //Response of the jsonObjectRequest
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
+                progress.setVisibility(View.INVISIBLE);
+                loginBtn.setEnabled(true);
+            }else{
+                react.setText(getResources().getString(R.string.error_password));
+                progress.setVisibility(View.INVISIBLE);
+                loginBtn.setEnabled(true);
+            }
+        }
 
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        System.out.println(response.toString());
-                        if(response.getBoolean("success")){
-                            //Start new activity
-                            Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
-                            Log.i("LOGIN", response.toString());
-                            intent.putExtra("userID", response.getInt("id") );
-                            intent.putExtra("admin", response.getInt("admin") );
-                            startActivity(intent);
 
-                            progress.setVisibility(View.INVISIBLE);
-                            loginBtn.setEnabled(true);
-                        }else{
-                            react.setText(getResources().getString(R.string.error_password));
-                            progress.setVisibility(View.INVISIBLE);
-                            loginBtn.setEnabled(true);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    react.setText(getResources().getString(R.string.error_network));
-                    progress.setVisibility(View.INVISIBLE);
-                    loginBtn.setEnabled(true);
-                }
-            });
-
-            //Add request to NetworkSingleton
-            NetworkSingleton.getInstance(MainActivity.this).addToRequestQueue(jsonObjectRequest);
+        @Override
+        public void error() {
+            react.setText(getResources().getString(R.string.error_network));
+            progress.setVisibility(View.INVISIBLE);
+            loginBtn.setEnabled(true);
         }
     }
 }

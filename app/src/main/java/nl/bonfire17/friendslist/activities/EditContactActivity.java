@@ -20,12 +20,16 @@ import com.example.android.friendslist.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import nl.bonfire17.friendslist.compounds.EditContactCompound;
+import nl.bonfire17.friendslist.data.DataProvider;
 import nl.bonfire17.friendslist.data.NetworkSingleton;
+import nl.bonfire17.friendslist.data.ProviderResponse;
 import nl.bonfire17.friendslist.models.Contact;
+import nl.bonfire17.friendslist.models.User;
 
 public class EditContactActivity extends AppCompatActivity {
 
@@ -34,12 +38,11 @@ public class EditContactActivity extends AppCompatActivity {
     private EditContactCompound edit;
     private Button deleteButton;
 
+    private DataProvider dataProvider;
     private JSONObject contactJSON;
-    private Contact contact;
 
-    private int userID;
-    private int contactID = 0;
-    private boolean newContact = true;
+    private User user;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +50,8 @@ public class EditContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_contact);
 
         edit = (EditContactCompound)findViewById(R.id.editUserPanel);
-
         deleteButton = (Button)findViewById(R.id.editButton);
-
         tb = (Toolbar) findViewById(R.id.toolbar);
-
         tb.setTitleTextColor(Color.WHITE);
         setSupportActionBar(tb);
         ab = getSupportActionBar();
@@ -60,13 +60,15 @@ public class EditContactActivity extends AppCompatActivity {
 
         deleteButton.setOnClickListener(new DeleteListener());
 
-        userID = getIntent().getIntExtra("userID", -1);
+        user = (User)getIntent().getSerializableExtra("user");
+
+        dataProvider = new DataProvider(this);
 
         //Check if an existing contact was selected or a new one
-        if(!getIntent().getBooleanExtra("newContact", true)){
-            newContact = false;
-            contactID = (int)getIntent().getLongExtra("contactID", -1);
-            loadData();
+        int contactID = getIntent().getIntExtra("contactID", -1);
+        if(contactID >= 0){
+            contact = user.getContact(contactID);
+            loadContact();
             ab.setTitle(R.string.edit);
         }else{
             ab.setTitle(R.string.add);
@@ -86,142 +88,46 @@ public class EditContactActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_check:
-                sendData();
+                sendContact();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     //Send coumpond input data to the server
-    public void sendData(){
-        String url;
-        if(newContact){
-            url = NetworkSingleton.getApiUrl() + "a=addContact";
-        }else{
-            url = NetworkSingleton.getApiUrl() + "a=editContact";
-        }
-
-        //Add values to parameters
-        String firstname = edit.getFirstname();
-        String lastname = edit.getLastname();
-        String email = edit.getEmail();
-        String phone = edit.getPhonenumber();
+    public void sendContact(){
         Map<String, String> params = new HashMap();
         params.put("Content-Type", "application/json; charset=utf-8");
-        params.put("id", String.valueOf(userID));
-        params.put("firstname", firstname);
-        params.put("lastname", lastname);
-        params.put("email", email);
-        params.put("phonenumber", phone);
-        if(!newContact){
-            params.put("contactId", String.valueOf(contactID));
+        params.put("id", Integer.toString(user.getId()));
+        params.put("firstname", edit.getFirstname());
+        params.put("lastname", edit.getLastname());
+        params.put("email", edit.getEmail());
+        params.put("phonenumber", edit.getPhonenumber());
+
+        String request = DataProvider.ADD_CONTACT;
+        if(contact != null){
+            params.put("contactId", Integer.toString(contact.getId()));
+            request = DataProvider.EDIT_CONTACT;
         }
 
-        JSONObject parameters = new JSONObject(params);
-
-        //Response of the jsonObjectRequest
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-            try {
-                if(response.getBoolean("success")){
-                    finish();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-        //Add request to NetworkSingleton
-        NetworkSingleton.getInstance(EditContactActivity.this).addToRequestQueue(jsonObjectRequest);
+        dataProvider.request(request, params, new SuccessListener());
     }
 
     //Load contact data from the server
-    public void loadData(){
-        String url = NetworkSingleton.getApiUrl() + "a=getContact";
-
-        //Add values to parameters
-        Map<String, String> params = new HashMap();
-        params.put("Content-Type", "application/json; charset=utf-8");
-        params.put("id", String.valueOf(userID));
-        params.put("contactId", String.valueOf(contactID));
-
-        JSONObject parameters = new JSONObject(params);
-
-        //Response of the jsonObjectRequest
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-            try {
-                contactJSON = response.getJSONObject("data");
-                contact = new Contact(Integer.parseInt(contactJSON.getString("id")), contactJSON.getString("firstname"),
-                        contactJSON.getString("lastname"), contactJSON.getString("email"), contactJSON.getString("phonenumber"));
-
-                //load data into compound
-                edit.setFirstname(contact.getFirstname());
-                edit.setLastname(contact.getLastname());
-                edit.setEmail(contact.getEmail());
-                edit.setPhonenumber(contact.getPhone());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-        //Add request to NetworkSingleton
-        NetworkSingleton.getInstance(EditContactActivity.this).addToRequestQueue(jsonObjectRequest);
+    public void loadContact(){
+        edit.setFirstname(contact.getFirstname());
+        edit.setLastname(contact.getLastname());
+        edit.setEmail(contact.getEmail());
+        edit.setPhonenumber(contact.getPhone());
     }
 
     //Delete contact
     public void deleteContact(){
-        String url = NetworkSingleton.getApiUrl() + "a=deleteContact";
-
-        //Add values to parameters
         Map<String, String> params = new HashMap();
         params.put("Content-Type", "application/json; charset=utf-8");
-        params.put("id", String.valueOf(userID));
-        params.put("contactId", String.valueOf(contactID));
-
-        JSONObject parameters = new JSONObject(params);
-
-        //Response of the jsonObjectRequest
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if(response.getBoolean("success")){
-                        finish();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-        //Add request to NetworkSingleton
-        NetworkSingleton.getInstance(EditContactActivity.this).addToRequestQueue(jsonObjectRequest);
+        params.put("id", String.valueOf(user.getId()));
+        params.put("contactId", String.valueOf(contact.getId()));
+        dataProvider.request(DataProvider.DELETE_CONTACT, params, new SuccessListener());
     }
 
     //Listens for an delete button click
@@ -229,8 +135,23 @@ public class EditContactActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            if(!newContact){
+            if(contact != null){
                 deleteContact();
+            }
+        }
+    }
+
+    class SuccessListener implements ProviderResponse.SuccessResponse{
+
+        @Override
+        public void error() {
+
+        }
+
+        @Override
+        public void response(boolean success) {
+            if(success){
+                finish();
             }
         }
     }

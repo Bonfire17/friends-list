@@ -29,8 +29,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import nl.bonfire17.friendslist.data.DataProvider;
 import nl.bonfire17.friendslist.data.NetworkSingleton;
 import nl.bonfire17.friendslist.adapters.UserAdapter;
+import nl.bonfire17.friendslist.data.ProviderResponse;
 import nl.bonfire17.friendslist.models.Contact;
 import nl.bonfire17.friendslist.models.User;
 
@@ -41,7 +43,10 @@ public class UserAdminActivity extends AppCompatActivity {
     private SwipeRefreshLayout srl;
     private ListView lv;
 
-    private int userID;
+    private DataProvider dataProvider;
+
+    private User user;
+    private ArrayList<User> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +65,9 @@ public class UserAdminActivity extends AppCompatActivity {
 
         lv = (ListView)findViewById(R.id.userView);
 
-        userID = getIntent().getIntExtra("userID", -1);
-        if(userID == -1){
-            finish();
-        }else{
-            init();
-        }
+        user = (User)getIntent().getSerializableExtra("user");
+
+        dataProvider = new DataProvider(this);
     }
 
     public void onResume(){
@@ -75,7 +77,7 @@ public class UserAdminActivity extends AppCompatActivity {
 
     private void init(){
         lv.setOnItemClickListener(new ItemListener());
-        loadData();
+        loadUsers();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,82 +93,38 @@ public class UserAdminActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_add:
-                Intent intent = new Intent(UserAdminActivity.this, EditUserActivity.class);
-                intent.putExtra("userID", userID);
-                intent.putExtra("newUser", true);
-                startActivity(intent);
+                newUser();
                 return true;
             case R.id.action_refresh:
-                loadData();
+                loadUsers();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     //Loads users from server
-    private void loadData(){
-        String url = NetworkSingleton.getApiUrl() + "a=getUsers";
-
-        //Add values to parameters
-        Map<String, String> params = new HashMap();
-        params.put("Content-Type", "application/json; charset=utf-8");
-        params.put("id", Integer.toString(userID));
-        JSONObject parameters = new JSONObject(params);
-
+    private void loadUsers(){
         srl.setRefreshing(true);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("id", Integer.toString(user.getId()));
+        dataProvider.request(DataProvider.GET_USERS, parameters, new UsersListener());
+    }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
+    private void newUser(){
+        Intent intent = new Intent(UserAdminActivity.this, EditUserActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
 
-            @Override
-            public void onResponse(JSONObject response) {
-                //Load JSONArray from JSONObject
-                JSONArray ja = null;
-                ArrayList<User> users = new ArrayList<User>();
-                Log.d("TAG", response.toString());
-                try {
-                    if(response.getBoolean("success")){
-                        ja = response.getJSONArray("data");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                /*
-                    Add a user to a user list
-                    Add contacts to user us from the list
-                */
-                //Loop through users from JSONArray
-                for(int i = 0; i < ja.length(); i++){
-                    try {
-                        JSONObject jo = ja.getJSONObject(i);
-                        ArrayList<Contact> contacts = new ArrayList<Contact>();
-
-                        //Loop through contacts of a user
-                        for(int j = 0; j < jo.getJSONArray("contacts").length(); j++){
-                            JSONObject con = jo.getJSONArray("contacts").getJSONObject(j);
-                            //Add contacts of a user to a list
-                            contacts.add(new Contact(Integer.parseInt(con.getString("id")), con.getString("firstname"),
-                                    con.getString("lastname"), con.getString("email"), con.getString("phonenumber")));
-                        }
-
-                        //Add user to a list with a contact list
-                        users.add(new User(Integer.parseInt(jo.getString("id")), jo.getString("email"), (jo.getInt("admin") == 1 ? true : false), contacts));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                lv.setAdapter(new UserAdapter(UserAdminActivity.this, users));
-                srl.setRefreshing(false);
+    private void editUser(int id){
+        Intent intent = new Intent(UserAdminActivity.this, EditUserActivity.class);
+        intent.putExtra("user", user);
+        for(int i = 0; i < users.size(); i++){
+            if(users.get(i).getId() == id){
+                intent.putExtra("editUser", users.get(i));
             }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        NetworkSingleton.getInstance(UserAdminActivity.this).addToRequestQueue(jsonObjectRequest);
+        }
+        startActivity(intent);
     }
 
     //Listens for a refresh
@@ -174,7 +132,7 @@ public class UserAdminActivity extends AppCompatActivity {
 
         @Override
         public void onRefresh() {
-            loadData();
+            loadUsers();
         }
     }
 
@@ -184,11 +142,22 @@ public class UserAdminActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
             lv.setOnItemClickListener(null);
-            Intent intent = new Intent(UserAdminActivity.this, EditUserActivity.class);
-            intent.putExtra("userID", userID);
-            intent.putExtra("newUser", false);
-            intent.putExtra("editUserID", id);
-            startActivity(intent);
+            editUser((int)id);
+        }
+    }
+
+    class UsersListener implements ProviderResponse.UsersResponse{
+
+        @Override
+        public void error() {
+
+        }
+
+        @Override
+        public void response(ArrayList<User> responseUsers) {
+            users = responseUsers;
+            lv.setAdapter(new UserAdapter(UserAdminActivity.this, users));
+            srl.setRefreshing(false);
         }
     }
 }
