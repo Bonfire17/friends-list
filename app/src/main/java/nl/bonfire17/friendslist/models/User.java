@@ -23,22 +23,6 @@ public class User implements Serializable {
         return this.contacts.size();
     }
 
-    public int getId(){
-        return this.id;
-    }
-
-    public String getEmail(){
-        return this.email;
-    }
-
-    public boolean getIsAdmin(){
-        return this.isAdmin;
-    }
-
-    public ArrayList<Contact> getContacts(){
-        return this.contacts;
-    }
-
     public Contact getContact(int id){
         for (Contact contact: contacts) {
             if(contact.getId() == id){
@@ -46,5 +30,41 @@ public class User implements Serializable {
             }
         }
         return null;
+    }
+
+    public int getId(){
+        return this.id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public String getEmail(){
+        return this.email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public boolean getIsAdmin(){
+        return this.isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin){
+        this.isAdmin = isAdmin;
+    }
+
+    public ArrayList<Contact> getContacts(){
+        return this.contacts;
+    }
+
+    public void setContacts(ArrayList<Contact> contacts){
+        this.contacts = contacts;
+    }
+
+    public String toString(){
+        return this.id + " " + this.email + " " + this.isAdmin;
     }
 }

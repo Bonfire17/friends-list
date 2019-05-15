@@ -8,12 +8,12 @@ import com.android.volley.toolbox.Volley;
 
 public class NetworkSingleton {
     private static NetworkSingleton instance;
-    private RequestQueue rq;
+    private RequestQueue requestQueue;
     private static Context ctx;
 
     private NetworkSingleton(Context ctx){
         this.ctx = ctx;
-        rq = getRequestQueue();
+        requestQueue = getRequestQueue();
     }
 
     public static synchronized NetworkSingleton getInstance(Context context) {
@@ -24,10 +24,10 @@ public class NetworkSingleton {
     }
 
     private RequestQueue getRequestQueue() {
-        if (rq == null) {
-            rq = Volley.newRequestQueue(ctx.getApplicationContext());
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
         }
-        return rq;
+        return requestQueue;
 
     }
 

@@ -28,7 +28,7 @@ import nl.bonfire17.friendslist.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button loginBtn;
+    private Button loginButton;
     private EditText emailEdit, passwordEdit;
     private TextView react;
     private ProgressBar progress;
@@ -40,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginBtn = (Button)findViewById(R.id.login);
+        loginButton = (Button)findViewById(R.id.login);
         emailEdit = (EditText)findViewById(R.id.email);
         passwordEdit = (EditText)findViewById(R.id.password);
         react = (TextView)findViewById(R.id.react);
         progress = (ProgressBar)findViewById(R.id.loginProgress);
 
-        loginBtn.setOnClickListener(new LoginButtonListener());
+        loginButton.setOnClickListener(new LoginButtonListener());
 
         dataProvider = new DataProvider(this);
     }
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            loginBtn.setEnabled(false);
+            loginButton.setEnabled(false);
             progress.setVisibility(View.VISIBLE);
 
             Map<String, String> parameters = new HashMap();
@@ -75,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 progress.setVisibility(View.INVISIBLE);
-                loginBtn.setEnabled(true);
+                loginButton.setEnabled(true);
             }else{
                 react.setText(getResources().getString(R.string.error_password));
                 progress.setVisibility(View.INVISIBLE);
-                loginBtn.setEnabled(true);
+                loginButton.setEnabled(true);
             }
         }
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         public void error() {
             react.setText(getResources().getString(R.string.error_network));
             progress.setVisibility(View.INVISIBLE);
-            loginBtn.setEnabled(true);
+            loginButton.setEnabled(true);
         }
     }
 }

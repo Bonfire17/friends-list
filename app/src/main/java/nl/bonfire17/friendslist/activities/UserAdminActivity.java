@@ -38,10 +38,10 @@ import nl.bonfire17.friendslist.models.User;
 
 public class UserAdminActivity extends AppCompatActivity {
 
-    private Toolbar tb;
-    private ActionBar ab;
-    private SwipeRefreshLayout srl;
-    private ListView lv;
+    private Toolbar toolBar;
+    private ActionBar actionBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
 
     private DataProvider dataProvider;
 
@@ -53,17 +53,17 @@ public class UserAdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_admin);
 
-        tb = (Toolbar)findViewById(R.id.toolbar);
-        tb.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(tb);
-        ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setHomeAsUpIndicator(R.drawable.ic_back);
+        toolBar = (Toolbar)findViewById(R.id.toolbar);
+        toolBar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolBar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
 
-        srl = (SwipeRefreshLayout)findViewById(R.id.swiperefresh);
-        srl.setOnRefreshListener(new RefreshListener());
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(new RefreshListener());
 
-        lv = (ListView)findViewById(R.id.userView);
+        listView = (ListView)findViewById(R.id.userView);
 
         user = (User)getIntent().getSerializableExtra("user");
 
@@ -76,7 +76,7 @@ public class UserAdminActivity extends AppCompatActivity {
     }
 
     private void init(){
-        lv.setOnItemClickListener(new ItemListener());
+        listView.setOnItemClickListener(new ItemListener());
         loadUsers();
     }
 
@@ -104,7 +104,7 @@ public class UserAdminActivity extends AppCompatActivity {
 
     //Loads users from server
     private void loadUsers(){
-        srl.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(true);
         Map<String, String> parameters = new HashMap<>();
         parameters.put("id", Integer.toString(user.getId()));
         dataProvider.request(DataProvider.GET_USERS, parameters, new UsersListener());
@@ -141,7 +141,7 @@ public class UserAdminActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-            lv.setOnItemClickListener(null);
+            listView.setOnItemClickListener(null);
             editUser((int)id);
         }
     }
@@ -156,8 +156,8 @@ public class UserAdminActivity extends AppCompatActivity {
         @Override
         public void response(ArrayList<User> responseUsers) {
             users = responseUsers;
-            lv.setAdapter(new UserAdapter(UserAdminActivity.this, users));
-            srl.setRefreshing(false);
+            listView.setAdapter(new UserAdapter(UserAdminActivity.this, users));
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }

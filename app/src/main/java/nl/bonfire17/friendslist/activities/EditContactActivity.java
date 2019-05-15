@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,9 +34,9 @@ import nl.bonfire17.friendslist.models.User;
 
 public class EditContactActivity extends AppCompatActivity {
 
-    private Toolbar tb;
-    private ActionBar ab;
-    private EditContactCompound edit;
+    private Toolbar toolBar;
+    private ActionBar actionBar;
+    private EditContactCompound editCompound;
     private Button deleteButton;
 
     private DataProvider dataProvider;
@@ -49,14 +50,14 @@ public class EditContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
 
-        edit = (EditContactCompound)findViewById(R.id.editUserPanel);
+        editCompound = (EditContactCompound)findViewById(R.id.editUserPanel);
         deleteButton = (Button)findViewById(R.id.editButton);
-        tb = (Toolbar) findViewById(R.id.toolbar);
-        tb.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(tb);
-        ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setHomeAsUpIndicator(R.drawable.ic_back);
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        toolBar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolBar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
 
         deleteButton.setOnClickListener(new DeleteListener());
 
@@ -67,11 +68,12 @@ public class EditContactActivity extends AppCompatActivity {
         //Check if an existing contact was selected or a new one
         int contactID = getIntent().getIntExtra("contactID", -1);
         if(contactID >= 0){
+            Log.d("TAG", Integer.toString(contactID));
             contact = user.getContact(contactID);
             loadContact();
-            ab.setTitle(R.string.edit);
+            actionBar.setTitle(R.string.edit);
         }else{
-            ab.setTitle(R.string.add);
+            actionBar.setTitle(R.string.add);
             deleteButton.setVisibility(View.GONE);
         }
     }
@@ -95,14 +97,14 @@ public class EditContactActivity extends AppCompatActivity {
     }
 
     //Send coumpond input data to the server
-    public void sendContact(){
+    private void sendContact(){
         Map<String, String> params = new HashMap();
         params.put("Content-Type", "application/json; charset=utf-8");
         params.put("id", Integer.toString(user.getId()));
-        params.put("firstname", edit.getFirstname());
-        params.put("lastname", edit.getLastname());
-        params.put("email", edit.getEmail());
-        params.put("phonenumber", edit.getPhonenumber());
+        params.put("firstname", editCompound.getFirstname());
+        params.put("lastname", editCompound.getLastname());
+        params.put("email", editCompound.getEmail());
+        params.put("phonenumber", editCompound.getPhonenumber());
 
         String request = DataProvider.ADD_CONTACT;
         if(contact != null){
@@ -114,15 +116,12 @@ public class EditContactActivity extends AppCompatActivity {
     }
 
     //Load contact data from the server
-    public void loadContact(){
-        edit.setFirstname(contact.getFirstname());
-        edit.setLastname(contact.getLastname());
-        edit.setEmail(contact.getEmail());
-        edit.setPhonenumber(contact.getPhone());
+    private void loadContact(){
+        editCompound.setContact(contact.getFirstname(), contact.getLastname(), contact.getEmail(), contact.getPhone());
     }
 
     //Delete contact
-    public void deleteContact(){
+    private void deleteContact(){
         Map<String, String> params = new HashMap();
         params.put("Content-Type", "application/json; charset=utf-8");
         params.put("id", String.valueOf(user.getId()));

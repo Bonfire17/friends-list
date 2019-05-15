@@ -34,10 +34,10 @@ import nl.bonfire17.friendslist.models.User;
 
 public class EditUserActivity extends AppCompatActivity {
 
-    private Toolbar tb;
-    private ActionBar ab;
+    private Toolbar toolBar;
+    private ActionBar actionBar;
 
-    private EditUserCompound edit;
+    private EditUserCompound editCompound;
     private Button deleteButton;
 
     private User user;
@@ -49,14 +49,14 @@ public class EditUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
-        edit = (EditUserCompound)findViewById(R.id.editUserPanel);
+        editCompound = (EditUserCompound)findViewById(R.id.editUserPanel);
         deleteButton = (Button)findViewById(R.id.editButton);
-        tb = (Toolbar) findViewById(R.id.toolbar);
-        tb.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(tb);
-        ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setHomeAsUpIndicator(R.drawable.ic_back);
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        toolBar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolBar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
         deleteButton.setOnClickListener(new DeleteListener());
 
         dataProvider = new DataProvider(this);
@@ -65,13 +65,13 @@ public class EditUserActivity extends AppCompatActivity {
         editUser = (User)getIntent().getSerializableExtra("editUser");
 
         if(editUser != null){
-            edit.setPasswordVisibility(View.GONE);
+            editCompound.setPasswordVisibility(View.GONE);
             loadUser();
-            ab.setTitle(R.string.edit);
+            actionBar.setTitle(R.string.edit);
         }else{
-            ab.setTitle(R.string.add);
+            actionBar.setTitle(R.string.add);
             deleteButton.setVisibility(View.GONE);
-            edit.setChangePasswordVisibility(View.GONE);
+            editCompound.setChangePasswordVisibility(View.GONE);
         }
     }
 
@@ -98,21 +98,21 @@ public class EditUserActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap();
         params.put("Content-Type", "application/json; charset=utf-8");
         params.put("id", Integer.toString(user.getId()));
-        params.put("email", edit.getEmail());
-        params.put("password", edit.getPassword());
-        params.put("admin", Boolean.toString(edit.getAdmin()));
+        params.put("email", editCompound.getEmail());
+        params.put("password", editCompound.getPassword());
+        params.put("admin", Boolean.toString(editCompound.getAdmin()));
         String request = DataProvider.ADD_USER;
         if(editUser != null){
             request = DataProvider.EDIT_USER;
             params.put("userId", Integer.toString(editUser.getId()));
         }
-        params.put("changePassword", Boolean.toString(edit.getChangePassword()));
+        params.put("changePassword", Boolean.toString(editCompound.getChangePassword()));
         dataProvider.request(request, params, new SuccessListener() );
     }
 
     private void loadUser(){
-        edit.setEmail(editUser.getEmail());
-        edit.setAdmin(editUser.getIsAdmin());
+        editCompound.setEmail(editUser.getEmail());
+        editCompound.setAdmin(editUser.getIsAdmin());
     }
 
     private void deleteUser(){

@@ -33,6 +33,13 @@ public class EditContactCompound extends ConstraintLayout {
         phonenumber = (EditText)findViewById(R.id.phonenumber);
     }
 
+    public void setContact(String firstname, String lastname, String email, String phonenumber){
+        setFirstname(firstname);
+        setLastname(lastname);
+        setEmail(email);
+        setPhonenumber(phonenumber);
+    }
+
     public String getFirstname(){
         return this.firstname.getText().toString();
     }

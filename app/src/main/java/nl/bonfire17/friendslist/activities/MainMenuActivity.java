@@ -42,12 +42,12 @@ import nl.bonfire17.friendslist.models.User;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    private ListView lv;
-    private Toolbar tb;
-    private ActionBar ab;
-    private DrawerLayout dl;
-    private NavigationView nv;
-    private SwipeRefreshLayout srl;
+    private ListView listView;
+    private Toolbar toolBar;
+    private ActionBar actionBar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private AddButton addButton;
     private DataProvider dataProvider;
     private User user;
@@ -57,26 +57,26 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        tb = (Toolbar) findViewById(R.id.toolbar);
-        lv = (ListView)findViewById(R.id.contactsView);
-        dl = (DrawerLayout)findViewById(R.id.drawer_layout);
-        srl = (SwipeRefreshLayout)findViewById(R.id.swiperefresh);
-        nv = (NavigationView)findViewById(R.id.nav_view);
+        toolBar = (Toolbar) findViewById(R.id.toolbar);
+        listView = (ListView)findViewById(R.id.contactsView);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swiperefresh);
+        navigationView = (NavigationView)findViewById(R.id.nav_view);
         addButton = (AddButton)findViewById(R.id.addButton);
 
-        lv.setOnItemClickListener(new ItemListener());
+        listView.setOnItemClickListener(new ItemListener());
 
-        tb.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(tb);
-        ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setHomeAsUpIndicator(R.drawable.ic_options);
-        ab.setTitle(R.string.app_name_space);
+        toolBar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolBar);
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_options);
+        actionBar.setTitle(R.string.app_name_space);
 
         dataProvider = new DataProvider(this);
 
 
-        srl.setOnRefreshListener(new RefreshListener());
+        swipeRefreshLayout.setOnRefreshListener(new RefreshListener());
         init();
     }
 
@@ -96,7 +96,7 @@ public class MainMenuActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 //Open side drawer
-                dl.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.action_add:
                 //Start new activity
@@ -113,15 +113,15 @@ public class MainMenuActivity extends AppCompatActivity {
     */
     //Init button and item listeners, load fresh data
     private void init(){
-        nv.setNavigationItemSelectedListener(new NavigationViewListener());
-        lv.setOnItemClickListener(new ItemListener());
+        navigationView.setNavigationItemSelectedListener(new NavigationViewListener());
+        listView.setOnItemClickListener(new ItemListener());
         addButton.setOnClickListener(new AddButtonListener());
         loadContacts();
     }
 
     //Load contacts into listview, method is also used to refresh list
     private void loadContacts(){
-        srl.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(true);
         Map<String, String> parameters = new HashMap<>();
         parameters.put("id", Integer.toString(getIntent().getIntExtra("userID", -1)));
         parameters.put("userId", Integer.toString(getIntent().getIntExtra("userID", -1)));
@@ -149,10 +149,10 @@ public class MainMenuActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
             if(item.getItemId() == R.id.nav_logout){
-                nv.setNavigationItemSelectedListener(null);
+                navigationView.setNavigationItemSelectedListener(null);
                 finish();
             }else if(item.getItemId() == R.id.nav_admin && user.getIsAdmin()){
-                nv.setNavigationItemSelectedListener(null);
+                navigationView.setNavigationItemSelectedListener(null);
                 Intent intent = new Intent(MainMenuActivity.this, UserAdminActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
@@ -177,7 +177,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-            lv.setOnItemClickListener(null);
+            listView.setOnItemClickListener(null);
             editContact(id);
         }
     }
@@ -198,16 +198,16 @@ public class MainMenuActivity extends AppCompatActivity {
         public void response(User responseUser) {
             user = responseUser;
             if(user.getIsAdmin()){
-                Menu nav_menu = nv.getMenu();
+                Menu nav_menu = navigationView.getMenu();
                 nav_menu.findItem(R.id.nav_admin).setVisible(true);
             }
-            lv.setAdapter(new ContactAdapter(MainMenuActivity.this, user.getContacts()));
-            srl.setRefreshing(false);
+            listView.setAdapter(new ContactAdapter(MainMenuActivity.this, user.getContacts()));
+            swipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
         public void error(){
-            srl.setRefreshing(false);
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }
