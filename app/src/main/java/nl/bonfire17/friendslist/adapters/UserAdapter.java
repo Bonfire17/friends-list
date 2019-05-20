@@ -12,6 +12,7 @@ import com.example.android.friendslist.R;
 
 import java.util.ArrayList;
 
+import nl.bonfire17.friendslist.ContactIllustrator;
 import nl.bonfire17.friendslist.models.User;
 
 public class UserAdapter extends ArrayAdapter<User> {
@@ -28,20 +29,20 @@ public class UserAdapter extends ArrayAdapter<User> {
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
         User user = getItem(i);
-
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.user_view, parent, false);
         }
 
-        TextView email, isAdmin, numberOfContacts;
+        TextView email, isAdmin;
+        ContactIllustrator contactIllustrator;
         email = (TextView) convertView.findViewById(R.id.email);
         isAdmin = (TextView) convertView.findViewById(R.id.isAdmin);
-        numberOfContacts = (TextView) convertView.findViewById(R.id.numberOfContacts);
+        contactIllustrator = (ContactIllustrator) convertView.findViewById(R.id.contactIllustrator);
 
         email.setText(user.getEmail());
         isAdmin.setText(getContext().getResources().getString(R.string.administrator) + ": " +
                 (user.getIsAdmin() ? getContext().getResources().getString(R.string.yes): getContext().getResources().getString(R.string.no)));
-        numberOfContacts.setText(Integer.toString(user.getContactsCount()));
+        contactIllustrator.setContactNumber(user.getContactsCount());
         return convertView;
     }
 }

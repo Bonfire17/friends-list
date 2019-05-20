@@ -40,10 +40,11 @@ public class EditUserActivity extends AppCompatActivity {
     private EditUserCompound editCompound;
     private Button deleteButton;
 
+    private DataProvider dataProvider;
+
     private User user;
     private User editUser;
 
-    private DataProvider dataProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class EditUserActivity extends AppCompatActivity {
         user = (User)getIntent().getSerializableExtra("user");
         editUser = (User)getIntent().getSerializableExtra("editUser");
 
+        //Check if we are editing or adding a user
         if(editUser != null){
             editCompound.setPasswordVisibility(View.GONE);
             loadUser();
@@ -94,6 +96,7 @@ public class EditUserActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Send user data to the server
     private void sendUser(){
         Map<String, String> params = new HashMap();
         params.put("Content-Type", "application/json; charset=utf-8");
@@ -110,11 +113,13 @@ public class EditUserActivity extends AppCompatActivity {
         dataProvider.request(request, params, new SuccessListener() );
     }
 
+    //Load user data to the compound
     private void loadUser(){
         editCompound.setEmail(editUser.getEmail());
         editCompound.setAdmin(editUser.getIsAdmin());
     }
 
+    //Delete user and recieve a response
     private void deleteUser(){
         Map<String, String> params = new HashMap();
         params.put("Content-Type", "application/json; charset=utf-8");

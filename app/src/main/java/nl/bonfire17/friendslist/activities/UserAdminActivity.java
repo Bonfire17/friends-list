@@ -110,12 +110,14 @@ public class UserAdminActivity extends AppCompatActivity {
         dataProvider.request(DataProvider.GET_USERS, parameters, new UsersListener());
     }
 
+    //Add a new user by opening the EditUserActivity
     private void newUser(){
         Intent intent = new Intent(UserAdminActivity.this, EditUserActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }
 
+    //Edit a existing user by opening the EditUserActivity and send the user to be edited
     private void editUser(int id){
         Intent intent = new Intent(UserAdminActivity.this, EditUserActivity.class);
         intent.putExtra("user", user);

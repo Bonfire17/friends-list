@@ -22,15 +22,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <nl.bonfire17.friendslist.AddButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/addButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-        </nl.bonfire17.friendslist.AddButton>
-
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
             android:layout_width="match_parent"

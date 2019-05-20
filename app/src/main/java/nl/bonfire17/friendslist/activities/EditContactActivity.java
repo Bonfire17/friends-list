@@ -68,7 +68,6 @@ public class EditContactActivity extends AppCompatActivity {
         //Check if an existing contact was selected or a new one
         int contactID = getIntent().getIntExtra("contactID", -1);
         if(contactID >= 0){
-            Log.d("TAG", Integer.toString(contactID));
             contact = user.getContact(contactID);
             loadContact();
             actionBar.setTitle(R.string.edit);

@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.bonfire17.friendslist.AddButton;
 import nl.bonfire17.friendslist.adapters.ContactAdapter;
 import nl.bonfire17.friendslist.data.DataProvider;
 import nl.bonfire17.friendslist.data.NetworkSingleton;
@@ -48,7 +47,6 @@ public class MainMenuActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private AddButton addButton;
     private DataProvider dataProvider;
     private User user;
 
@@ -62,7 +60,6 @@ public class MainMenuActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swiperefresh);
         navigationView = (NavigationView)findViewById(R.id.nav_view);
-        addButton = (AddButton)findViewById(R.id.addButton);
 
         listView.setOnItemClickListener(new ItemListener());
 
@@ -115,7 +112,6 @@ public class MainMenuActivity extends AppCompatActivity {
     private void init(){
         navigationView.setNavigationItemSelectedListener(new NavigationViewListener());
         listView.setOnItemClickListener(new ItemListener());
-        addButton.setOnClickListener(new AddButtonListener());
         loadContacts();
     }
 
@@ -179,16 +175,6 @@ public class MainMenuActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
             listView.setOnItemClickListener(null);
             editContact(id);
-        }
-    }
-
-    //AddButton listens for a onclick of a custom view
-    class AddButtonListener implements View.OnClickListener{
-
-        @Override
-        public void onClick(View view) {
-            addButton.setOnClickListener(null);
-            newContact();
         }
     }
 

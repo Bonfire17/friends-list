@@ -25,15 +25,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/numberOfContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <nl.bonfire17.friendslist.ContactIllustrator
+        android:id="@+id/contactIllustrator"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/isAdmin">
+
+    </nl.bonfire17.friendslist.ContactIllustrator>
+
 </android.support.constraint.ConstraintLayout>
