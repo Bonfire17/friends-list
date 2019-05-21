@@ -1,28 +1,19 @@
 package nl.bonfire17.friendslist.data;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.android.friendslist.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-import nl.bonfire17.friendslist.activities.MainActivity;
-import nl.bonfire17.friendslist.activities.MainMenuActivity;
 import nl.bonfire17.friendslist.models.Contact;
 import nl.bonfire17.friendslist.models.User;
 
@@ -35,7 +26,7 @@ public class DataProvider {
     private Context ctx;
 
     //Enter your API URL here
-    private final static String API_URL = "http://bonfire17.nl/";
+    private final static String API_URL = "http://example-api.com/";
 
     //These are the request types of this application
     public final static String LOGIN = "login";

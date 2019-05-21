@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">FriendsList</string>
     <string name="password">Wachtwoord</string>
     <string name="email">Emailadres</string>
     <string name="login">Inloggen</string>
     <string name="logout">Uitloggen</string>
     <string name="app_name_space">Friends List</string>
-    <string name="options">Opties</string>
     <string name="add">Toevoegen</string>
     <string name="firstname">Voornaam</string>
     <string name="lastname">Achternaam</string>
@@ -20,4 +18,5 @@
     <string name="change_password">Wachtwoord wijzigen</string>
     <string name="error_password">De ingevoerde gegevens zijn incorrect!</string>
     <string name="error_network">Kon geen verbinding maken met de server!</string>
+    <string name="is_admin">Is administrator: </string>
 </resources>

@@ -5,29 +5,21 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.android.friendslist.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import nl.bonfire17.friendslist.compounds.EditContactCompound;
 import nl.bonfire17.friendslist.data.DataProvider;
-import nl.bonfire17.friendslist.data.NetworkSingleton;
 import nl.bonfire17.friendslist.data.ProviderResponse;
 import nl.bonfire17.friendslist.models.Contact;
 import nl.bonfire17.friendslist.models.User;

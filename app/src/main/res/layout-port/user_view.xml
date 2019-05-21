@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,11 +20,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <nl.bonfire17.friendslist.ContactIllustrator
+    <nl.bonfire17.friendslist.custom.ContactIllustrator
         android:id="@+id/contactIllustrator"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -38,6 +36,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/isAdmin">
 
-    </nl.bonfire17.friendslist.ContactIllustrator>
+    </nl.bonfire17.friendslist.custom.ContactIllustrator>
 
 </android.support.constraint.ConstraintLayout>

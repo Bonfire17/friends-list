@@ -3,28 +3,19 @@ package nl.bonfire17.friendslist.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.android.friendslist.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import nl.bonfire17.friendslist.data.DataProvider;
 import nl.bonfire17.friendslist.data.ProviderResponse;
-import nl.bonfire17.friendslist.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
             loginButton.setEnabled(false);
             progress.setVisibility(View.VISIBLE);
 
+            //Send a hashmap with request parameters to the DataProvider request method
+            //Also send a response Listener that waits for a response
             Map<String, String> parameters = new HashMap();
             parameters.put("email", emailEdit.getText().toString());
             parameters.put("password", passwordEdit.getText().toString());
@@ -69,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void response(boolean login, int id) {
+            //Check if credentials are correct
             if(login){
+                //Start next activity
                 Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
                 intent.putExtra("userID", id);
                 startActivity(intent);
@@ -77,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 progress.setVisibility(View.INVISIBLE);
                 loginButton.setEnabled(true);
             }else{
+                //Display error msg
                 react.setText(getResources().getString(R.string.error_password));
                 progress.setVisibility(View.INVISIBLE);
                 loginButton.setEnabled(true);

@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">FriendsList</string>
     <string name="password">Password</string>
     <string name="email">Email address</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="app_name_space">Friends List</string>
-    <string name="options">Options</string>
     <string name="add">Add</string>
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
@@ -20,4 +18,5 @@
     <string name="change_password">Change password</string>
     <string name="error_password">Wrong credentials!</string>
     <string name="error_network">Can not connect to the server!</string>
+    <string name="is_admin">Is administrator: </string>
 </resources>

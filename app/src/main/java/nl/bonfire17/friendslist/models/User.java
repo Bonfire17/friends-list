@@ -3,8 +3,6 @@ package nl.bonfire17.friendslist.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import nl.bonfire17.friendslist.models.Contact;
-
 public class User implements Serializable {
     private int id;
     private String email;

@@ -1,4 +1,4 @@
-package nl.bonfire17.friendslist;
+package nl.bonfire17.friendslist.custom;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -35,7 +35,6 @@ public class ContactIllustrator extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
         for(int i = 0; i < contactNumber; i++){
             canvas.drawCircle((i * 75) + 21, 13, 10, paint);
             canvas.drawCircle((i * 75) + 21, 40, 20, paint);
