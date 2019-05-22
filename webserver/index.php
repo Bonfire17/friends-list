@@ -6,8 +6,8 @@
 
 	$ip = "localhost";
 	$db = "androidapp";
-	$DBusername = "androidappgebruiker";
-	$DBpassword = "xbVtsbuif0uHkOET";
+	$DBusername = "";
+	$DBpassword = "";
 
 
 	try {
